@@ -179,3 +179,76 @@ def test_delete_calculation(logged_in_page):
         print(f"Delete calculation response: {response.status} {response.text()}")
         assert response.status == 204, f"Expected 204, got {response.status}: {response.text()}"
     expect(calc_div).not_to_be_visible(timeout=30000)
+
+
+
+def test_browse_calculations(logged_in_page):
+    page, _ = logged_in_page
+    page.goto(f"{BASE_URL}/calculations-page")
+    page.screenshot(path="screenshots/calculations_page.png")
+    expect(page.locator("h2")).to_have_text("Your Calculations")
+    calculations_list = page.locator("#calculations-list")
+    expect(calculations_list).to_be_visible(timeout=30000)
+    no_calculations = page.locator("text=No calculations found")
+    if no_calculations.is_visible():
+        expect(no_calculations).to_be_visible()
+    else:
+        expect(calculations_list.locator("> div")).to_be_visible()
+
+def test_add_calculation_addition(logged_in_page):
+    page, _ = logged_in_page
+    page.goto(f"{BASE_URL}/calculations-page")
+    page.select_option("#type", "addition")
+    page.fill("#inputs", "2,2")  # Inputs to get result 4
+    with page.expect_response("**/calculations") as response_info:
+        page.click("#add-calculation-form button[type='submit']")
+        response = response_info.value
+        print(f"Add calculation response: {response.status} {response.text()}")
+        assert response.status == 201, f"Expected 201, got {response.status}: {response.text()}"
+    success_message = page.locator("#add-success")
+    expect(success_message).to_be_visible(timeout=30000)
+    expect(success_message).to_have_text("Calculation added successfully!")
+    calc_div = page.locator("#calculations-list > div")
+    expect(calc_div).to_be_visible(timeout=30000)
+    expect(calc_div).to_contain_text("Type: addition")
+    expect(calc_div).to_contain_text("Inputs: 2, 2")
+    expect(calc_div).to_contain_text("Result: 4")
+
+def test_add_calculation_exponentiation(logged_in_page):
+    page, _ = logged_in_page
+    page.goto(f"{BASE_URL}/calculations-page")
+    page.select_option("#type", "exponentiation")
+    page.fill("#inputs", "2,2")  # Inputs to get result 4
+    with page.expect_response("**/calculations") as response_info:
+        page.click("#add-calculation-form button[type='submit']")
+        response = response_info.value
+        print(f"Add calculation response: {response.status} {response.text()}")
+        assert response.status == 201, f"Expected 201, got {response.status}: {response.text()}"
+    success_message = page.locator("#add-success")
+    expect(success_message).to_be_visible(timeout=30000)
+    expect(success_message).to_have_text("Calculation added successfully!")
+    calc_div = page.locator("#calculations-list > div")
+    expect(calc_div).to_be_visible(timeout=30000)
+    expect(calc_div).to_contain_text("Type: exponentiation")
+    expect(calc_div).to_contain_text("Inputs: 2, 2")
+    expect(calc_div).to_contain_text("Result: 4")
+
+def test_add_calculation_modulus(logged_in_page):
+    page, _ = logged_in_page
+    page.goto(f"{BASE_URL}/calculations-page")
+    page.select_option("#type", "modulus")
+    page.fill("#inputs", "7,3")  # Inputs to get result 4
+    with page.expect_response("**/calculations") as response_info:
+        page.click("#add-calculation-form button[type='submit']")
+        response = response_info.value
+        print(f"Add calculation response: {response.status} {response.text()}")
+        assert response.status == 201, f"Expected 201, got {response.status}: {response.text()}"
+    success_message = page.locator("#add-success")
+    expect(success_message).to_be_visible(timeout=30000)
+    expect(success_message).to_have_text("Calculation added successfully!")
+    calc_div = page.locator("#calculations-list > div")
+    expect(calc_div).to_be_visible(timeout=30000)
+    expect(calc_div).to_contain_text("Type: modulus")
+    expect(calc_div).to_contain_text("Inputs: 7, 3")
+    expect(calc_div).to_contain_text("Result: 4")
+
