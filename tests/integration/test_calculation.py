@@ -7,6 +7,8 @@ from app.models.calculation import (
     Subtraction,
     Multiplication,
     Division,
+    Modulus,
+    Exponentiation
 )
 
 # Helper function to create a dummy user_id for testing.
