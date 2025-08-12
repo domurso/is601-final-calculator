@@ -19,10 +19,12 @@
                         <option value="subtraction">Subtract</option>
                         <option value="multiplication">Multiply</option>
                         <option value="division">Divide</option>
+                        <option value="exponentiation">Exponentiation</option>
+                        <option value="modulus">Modulus</option>
                     </select>
                 </div>
                 <div>
-                    <label for="inputs" class="block text-sm font-medium text-gray-700">Inputs (comma-separated numbers, e.g., 2,2 for result 4)</label>
+                    <label for="inputs" class="block text-sm font-medium text-gray-700">Inputs (comma-separated numbers, e.g., 2,2 for exponentiation result 4)</label>
                     <input type="text" id="inputs" name="inputs" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
                 </div>
                 <button type="submit" class="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700">Add</button>
@@ -95,7 +97,7 @@
         async function editCalculation(calcId) {
             const token = localStorage.getItem('access_token');
             console.log('Editing calculation ID:', calcId);
-            const inputs = prompt('Enter new inputs (comma-separated numbers, e.g., 8,4 for subtraction result 4):');
+            const inputs = prompt('Enter new inputs (comma-separated numbers, e.g., 7,3 for modulus result 4):');
             if (!inputs) return;
             const inputsArray = inputs.split(',').map(Number);
             if (inputsArray.some(isNaN)) {
