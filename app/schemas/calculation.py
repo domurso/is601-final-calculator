@@ -11,11 +11,11 @@ class CalculationType(str, Enum):
     MULTIPLICATION = "multiplication"
     DIVISION = "division"
     EXPONENTIATION = "exponentiation"
-
+    MODULUS = "modulus"
 class CalculationBase(BaseModel):
     type: CalculationType = Field(
         ...,
-        description="Type of calculation (addition, subtraction, multiplication, division, exponentation)",
+        description="Type of calculation (addition, subtraction, multiplication, division, exponentation, modulus)",
         example="addition"
     )
     inputs: List[float] = Field(
